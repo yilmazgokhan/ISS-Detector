@@ -18,7 +18,9 @@ public interface MainContract {
 
         void moveCamera(LatLng latLng);
 
-        void showErrorMessage(String message);
+        void showMessage(String message);
+
+        void showInAppComment();
     }
 
     interface Presenter {

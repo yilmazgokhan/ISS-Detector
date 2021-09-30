@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ISS Detector</string>
+    <string name="feedback_message">Thanks for your feedback.</string>
 </resources>

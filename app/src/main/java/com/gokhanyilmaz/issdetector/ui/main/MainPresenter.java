@@ -54,7 +54,7 @@ public class MainPresenter implements MainContract.Presenter {
             @Override
             public void onFailure(Call<ResponseISSLocation> call, Throwable t) {
                 Log.w(Constant.TAG, "getISSLocation - onFailure : " + t.getMessage());
-                view.showErrorMessage(t.getMessage());
+                view.showMessage(t.getMessage());
             }
         });
     }

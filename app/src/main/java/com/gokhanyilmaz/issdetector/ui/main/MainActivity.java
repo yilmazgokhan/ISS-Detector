@@ -2,6 +2,7 @@ package com.gokhanyilmaz.issdetector.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         binding.checkBoxTrack.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Log.w(Constant.TAG, "onCheckedChanged : " + isChecked);
             presenter.trackMarkerChanged(isChecked);
+            showInAppComment();
         });
     }
 
@@ -105,10 +107,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showErrorMessage(String message) {
+    public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+    //region Huawei In-App Comment
+    @Override
+    public void showInAppComment() {
+        try {
+            Intent intent = new Intent("com.huawei.appmarket.intent.action.guidecomment");
+            intent.setPackage("com.huawei.appmarket");
+            startActivityForResult(intent, 1001);
+        } catch (Exception e) {
+            Log.d(Constant.TAG, "initInAppComment: " + e.getMessage());
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            if (resultCode == 102 && resultCode == 103) {
+                showMessage(getResources().getString(R.string.feedback_message));
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    //endregion
+
+    //region Lifecycle for Huawei Map
     @Override
     protected void onStart() {
         super.onStart();
